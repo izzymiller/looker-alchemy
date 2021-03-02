@@ -12,16 +12,13 @@ import Editor from '~components/editor/Editor'
 import { InspectorProvider } from '~contexts/inspector-context'
 import Inspector from '~components/inspector/Inspector'
 
+import { Card, ComponentsProvider, theme } from '@looker/components'
+
 const App = () => {
   useShortcuts()
 
   return (
-    <>
-      <Global
-        styles={() => ({
-          html: { minWidth: '860px', backgroundColor: '#1a202c' },
-        })}
-      />
+    <ComponentsProvider>
       <Metadata />
       <Header />
       <DndProvider backend={Backend}>
@@ -47,7 +44,7 @@ const App = () => {
           </Box>
         </Flex>
       </DndProvider>
-    </>
+    </ComponentsProvider>
   )
 }
 

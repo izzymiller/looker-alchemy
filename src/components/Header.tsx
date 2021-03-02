@@ -1,10 +1,6 @@
 import React, { memo, useState } from 'react'
 import {
-  Box,
   Switch,
-  Button,
-  Flex,
-  Link,
   Stack,
   FormLabel,
   DarkMode,
@@ -21,6 +17,7 @@ import {
   Tooltip,
   HStack,
 } from '@chakra-ui/react'
+import { Box, Flex, Link, Button } from '@looker/components'
 import { ExternalLinkIcon, SmallCloseIcon, CheckIcon } from '@chakra-ui/icons'
 import { DiGithubBadge } from 'react-icons/di'
 import { AiFillThunderbolt } from 'react-icons/ai'
@@ -41,10 +38,10 @@ const CodeSandboxButton = () => {
       zIndex={100}
       hasArrow
       bg="yellow.100"
-      aria-label="Builder mode help"
-      label="Export in CodeSandbox"
+      aria-label="Export Code"
+      label="Export Code"
     >
-      <Button
+      {/* <Button
         onClick={async () => {
           setIsLoading(true)
           const code = await generateCode(components)
@@ -55,6 +52,18 @@ const CodeSandboxButton = () => {
             `https://codesandbox.io/api/v1/sandboxes/define?parameters=${parameters}`,
             '_blank',
           )
+        }}
+        isLoading={isLoading}
+        rightIcon={<ExternalLinkIcon path="" />}
+        variant="ghost"
+        size="xs"
+      > */}
+      <Button
+        onClick={async () => {
+          setIsLoading(true)
+          const code = await generateCode(components)
+          console.log(code)
+          setIsLoading(false)
         }}
         isLoading={isLoading}
         rightIcon={<ExternalLinkIcon path="" />}
@@ -93,7 +102,7 @@ const Header = () => {
           aria-label="Chakra UI, Back to homepage"
         >
           <Box fontSize="2xl" as={AiFillThunderbolt} mr={1} color="teal.100" />{' '}
-          <Box fontWeight="bold">open</Box>chakra
+          <Box fontWeight="bold">Looker Extension Builder</Box>
         </Flex>
 
         <Flex flexGrow={1} justifyContent="space-between" alignItems="center">
@@ -211,17 +220,7 @@ const Header = () => {
           align="center"
           direction="row"
           spacing="2"
-        >
-          <Link isExternal href="https://github.com/premieroctet/openchakra">
-            <Box as={DiGithubBadge} size={32} color="gray.200" />
-          </Link>
-          <Box lineHeight="shorter" color="white" fontSize="xs">
-            by{' '}
-            <Link isExternal href="https://premieroctet.com" color="teal.100">
-              Premier Octet
-            </Link>
-          </Box>
-        </Stack>
+        ></Stack>
       </Flex>
     </DarkMode>
   )
