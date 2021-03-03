@@ -2,6 +2,7 @@ import React from 'react'
 import { useDrag } from 'react-dnd'
 import { Text, Box } from '@chakra-ui/react'
 import { DragHandleIcon } from '@chakra-ui/icons'
+import { Tree, TreeItem, Icon } from '@looker/components'
 
 const DragItem: React.FC<ComponentItemProps> = ({
   type,
@@ -80,6 +81,48 @@ const DragItem: React.FC<ComponentItemProps> = ({
           soon
         </Box>
       )}
+    </Box>
+  )
+}
+
+export const DragItemTree: React.FC<ComponentItemProps> = ({
+  type,
+  soon,
+  label,
+  isMeta,
+  isChild,
+  rootParentType,
+}) => {
+  const [, drag] = useDrag({
+    item: { id: type, type, isMeta, rootParentType },
+  })
+
+  let boxProps: any = {
+    cursor: 'no-drop',
+  }
+
+  if (!soon) {
+    boxProps = {
+      ref: drag,
+      cursor: 'move',
+      _hover: {},
+    }
+  }
+
+  if (isChild) {
+    boxProps = { ...boxProps, ml: 4 }
+  }
+
+  return (
+    <Box
+      transition="margin 200ms"
+      display="flex"
+      alignItems="center"
+      {...boxProps}
+    >
+      <TreeItem transition="margin 200ms" icon="DragHandleDots" {...boxProps}>
+        {label}
+      </TreeItem>
     </Box>
   )
 }

@@ -60,7 +60,7 @@ const Editor: React.FC = () => {
     >
       {isEmpty && (
         <Text maxWidth="md" color="gray.400" fontSize="xl" textAlign="center">
-          Drag some component to start coding without code! Or load{' '}
+          Drag some components from the left to start building! Or, start with{' '}
           <Link
             color="gray.500"
             onClick={(e: React.MouseEvent) => {
@@ -69,7 +69,7 @@ const Editor: React.FC = () => {
             }}
             textDecoration="underline"
           >
-            the onboarding components
+            a template
           </Link>
           .
         </Text>
