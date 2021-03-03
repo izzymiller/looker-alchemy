@@ -2,7 +2,7 @@ import React from 'react'
 import { useDropComponent } from '~hooks/useDropComponent'
 import { useInteractive } from '~hooks/useInteractive'
 import icons from '~iconsList'
-import { Box } from '@chakra-ui/react'
+import { Box, Icon } from '@looker/components'
 
 interface Props {
   component: IComponent
@@ -19,13 +19,8 @@ const IconPreview = ({ component }: Props) => {
   }
 
   if (icon) {
-    if (Object.keys(icons).includes(icon)) {
-      const Icon = icons[icon as keyof typeof icons]
-      return (
-        <Box {...props} display="inline">
-          <Icon path="" color={color} boxSize={boxSize} />
-        </Box>
-      )
+    if (icons.includes(icon)) {
+      return <Icon name={icon ?? 'LogoRings'} color={color} {...props} />
     }
     return null
   }

@@ -1,11 +1,11 @@
 import React from 'react'
 import {
-  Avatar,
-  AvatarGroup,
+  AvatarIcon,
+  AvatarUser,
+  AvatarCombo,
   Box,
-  AvatarBadge,
   BoxProps,
-} from '@chakra-ui/react'
+} from '@looker/components'
 import { useInteractive } from '~hooks/useInteractive'
 import { useDropComponent } from '~hooks/useDropComponent'
 import ComponentPreview from '~components/editor/ComponentPreview'
@@ -16,7 +16,7 @@ const AvatarPreview: React.FC<IPreviewProps & {
   spacing?: BoxProps['marginLeft']
   index?: number
 }> = ({ component, spacing, index }) => {
-  const { drop, isOver } = useDropComponent(component.id, ['AvatarBadge'])
+  const { drop, isOver } = useDropComponent(component.id, ['AvatarIcon'])
   const { props, ref } = useInteractive(component)
 
   let boxProps: any = {
@@ -32,18 +32,18 @@ const AvatarPreview: React.FC<IPreviewProps & {
 
   return (
     <Box ref={drop(ref)} {...boxProps}>
-      <Avatar ml={index === 0 ? 0 : spacing} {...props}>
+      <AvatarIcon ml={index === 0 ? 0 : spacing} {...props}>
         {component.children.map((key: string) => (
           <ComponentPreview key={key} componentName={key} />
         ))}
-      </Avatar>
+      </AvatarIcon>
     </Box>
   )
 }
 
 export const AvatarGroupPreview = ({ component }: IPreviewProps) => {
   const { props, ref } = useInteractive(component, true)
-  const { drop, isOver } = useDropComponent(component.id, ['Avatar'])
+  const { drop, isOver } = useDropComponent(component.id, ['AvatarIcon'])
   const components = useSelector(getComponents)
   let boxProps: any = { display: 'inline' }
 
@@ -53,7 +53,7 @@ export const AvatarGroupPreview = ({ component }: IPreviewProps) => {
 
   return (
     <Box ref={drop(ref)} {...boxProps}>
-      <AvatarGroup {...props}>
+      <AvatarCombo {...props}>
         {component.children.map((key: string, i: number) => (
           <AvatarPreview
             key={key}
@@ -62,18 +62,7 @@ export const AvatarGroupPreview = ({ component }: IPreviewProps) => {
             component={components[key]}
           />
         ))}
-      </AvatarGroup>
-    </Box>
-  )
-}
-
-export const AvatarBadgePreview = ({ component }: IPreviewProps) => {
-  const { props, ref } = useInteractive(component)
-  let boxProps: any = {}
-
-  return (
-    <Box {...boxProps} ref={ref}>
-      <AvatarBadge {...props} />
+      </AvatarCombo>
     </Box>
   )
 }

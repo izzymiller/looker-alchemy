@@ -1,79 +1,501 @@
 import { getParameters } from 'codesandbox/lib/api/define'
+import JSZip from 'jszip'
+import saveAs from 'file-saver'
 
 export const buildParameters = (code: string): string => {
+  var zip = new JSZip()
+  zip.file(
+    'babel.config.js',
+    `module.exports = (api) => {
+    api.cache(true)
+
+    return {
+      presets: [
+        [
+          '@babel/env',
+          {
+            targets: {
+              browsers: 'Last 2 Chrome versions, Firefox ESR',
+              node: '8.9',
+            },
+          },
+        ],
+        [
+          '@babel/preset-react',
+          {
+            development: process.env.BABEL_ENV !== 'build',
+          },
+        ],
+      ],
+      env: {
+        build: {
+          ignore: ['**/*.test.js', '**/*.test.jsx', '__snapshots__', '__tests__'],
+        },
+      },
+      ignore: ['node_modules'],
+      plugins: [
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-proposal-object-rest-spread',
+        '@babel/plugin-transform-runtime',
+        'babel-plugin-styled-components',
+      ],
+    }
+  }
+  `,
+  )
+
+  zip.file(
+    'webpack.config.js',
+    `const path = require('path')
+  const webpack = require('webpack')
+
+  const PATHS = {
+    app: path.join(__dirname, 'src/index.js'),
+  }
+
+  module.exports = {
+    entry: {
+      app: PATHS.app,
+    },
+    output: {
+      path: __dirname + '/dist',
+      filename: 'bundle.js',
+      publicPath: 'http://localhost:8080/',
+    },
+    mode: 'development',
+    module: {
+      rules: [
+        {
+          test: /\.(js|jsx)$/,
+          loader: 'babel-loader',
+          exclude: /node_modules/,
+          include: /src/,
+        },
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /\.(js|jsx)?$/,
+          use: 'react-hot-loader/webpack',
+          include: /node_modules/,
+        },
+      ],
+    },
+    resolve: {
+      extensions: ['.jsx', '.js'],
+    },
+    devServer: {
+      index: 'index.html',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+        'Access-Control-Allow-Headers':
+          'X-Requested-With, content-type, Authorization',
+      },
+    },
+    devtool: 'inline-source-map',
+  }
+`,
+  )
+
+  zip.file(
+    'webpack.prod.config.js',
+    `const path = require('path')
+  const webpack = require('webpack')
+
+  const PATHS = {
+    app: path.join(__dirname, 'src/index.js'),
+  }
+
+  module.exports = {
+    entry: {
+      app: PATHS.app,
+    },
+    output: {
+      path: __dirname + '/dist',
+      filename: 'bundle.js',
+    },
+    mode: 'production',
+    module: {
+      rules: [
+        {
+          test: /\.(js|jsx)$/,
+          loader: 'babel-loader',
+          exclude: /node_modules/,
+          include: /src/,
+          sideEffects: false,
+        },
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
+      ],
+    },
+    resolve: {
+      extensions: ['.jsx', '.js'],
+    },
+  }
+`,
+  )
+
+  zip.file(
+    'manifest.lkml',
+    `project_name: "generated-extension"
+
+  application: generated-extension {
+    label: "generated-extension"
+    url: "http://localhost:8080/bundle.js"
+    # file: "bundle.js
+    entitlements: {
+    core_api_methods: ["me"] #Add more entitlements here as you develop new functionality
+  }
+  }
+`,
+  )
+
+  zip.file(
+    'package.json',
+    `{
+    "name": "generated-project",
+    "version": "0.0.1",
+    "description": "Bootstrapped Looker Extension",
+    "main": "dist/bundle.js",
+    "scripts": {
+      "clean": "rm -rf dist",
+      "start": "webpack serve --hot --disable-host-check --port 8080",
+      "build": "export BABEL_ENV=build && webpack --mode=production --config webpack.prod.config.js",
+      "test": "echo \'Error: no test specified\' && exit 1"
+    },
+    "author": "Looker",
+    "license": "MIT",
+    "engines": {
+      "node": ">=12"
+    },
+    "resolutions": {
+      "@babel/runtime": "^7.12.5"
+    },
+    "dependencies": {
+      "@hot-loader/react-dom": "^16.13.0",
+      "@looker/components": "0.9.6",
+      "@looker/embed-sdk": "1.0.0-beta.6",
+      "@looker/extension-sdk": "^0.11.0",
+      "@looker/extension-sdk-react": "^0.6.2",
+      "@looker/sdk": "0.3.0-beta.1",
+      "react": "^16.13.1",
+      "react-dom": "^16.13.1",
+      "react-router-dom": "^5.1.2",
+      "react-hot-loader": "^4.12.20",
+      "styled-components": "^4.4.1",
+      "styled-system": "^5.1.2",
+      "webpack": "^5.10.0",
+      "webpack-bundle-analyzer": "^4.2.0",
+      "webpack-cli": "^4.2.0",
+      "webpack-dev-server": "^3.10.3"
+    },
+    "devDependencies": {
+      "babel-loader": "^8.0.6",
+      "@babel/cli": "^7.7.4",
+      "@babel/core": "^7.0.0-0",
+      "@babel/plugin-proposal-class-properties": "^7.7.4",
+      "@babel/plugin-proposal-object-rest-spread": "^7.7.4",
+      "@babel/plugin-transform-react-jsx": "^7.3.0",
+      "@babel/plugin-transform-runtime": "^7.7.4",
+      "@babel/preset-env": "^7.7.4",
+      "@babel/preset-react": "^7.7.4",
+      "@babel/preset-typescript": "^7.7.4",
+      "@babel/runtime": "^7.7.4",
+      "babel-preset-nano-react-app": "^0.1.0",
+      "css-loader": "^3.5.2",
+      "json-server": "^0.16.1",
+      "style-loader": "^1.1.3"
+    },
+    "babel": {
+      "presets": [
+        "nano-react-app"
+      ],
+      "plugins": [
+        [
+          "@babel/plugin-proposal-class-properties",
+          {
+            "loose": true
+          }
+        ],
+        [
+          "@babel/plugin-transform-react-jsx",
+          {
+            "pragmaFrag": "React.Fragment"
+          }
+        ]
+      ]
+    }
+  }`,
+  )
+
+  zip.file(
+    'src/index.js',
+    `import * as React from 'react'
+  import * as ReactDOM from 'react-dom'
+  import { App } from './App'
+
+  window.addEventListener('DOMContentLoaded', (event) => {
+    var root = document.createElement('div')
+    document.body.appendChild(root)
+    ReactDOM.render(<App />, root)
+  })
+  `,
+  )
+
+  zip.file('src/App.js', code)
+
+  zip.generateAsync({ type: 'blob' }).then(function(content) {
+    saveAs(content, 'generated-extension.zip')
+  })
+
   return getParameters({
     files: {
-      'public/index.html': {
-        content: `<!DOCTYPE html>
-<html lang="en">
+      'babel.config.js': {
+        content: `module.exports = (api) => {
+          api.cache(true)
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="theme-color" content="#000000">
-	<link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-	<link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-	<title>React App</title>
-</head>
-
-<body>
-	<noscript>
-		You need to enable JavaScript to run this app.
-	</noscript>
-	<div id="root"></div>
-</body>
-
-</html>`,
+          return {
+            presets: [
+              [
+                '@babel/env',
+                {
+                  targets: {
+                    browsers: 'Last 2 Chrome versions, Firefox ESR',
+                    node: '8.9',
+                  },
+                },
+              ],
+              [
+                '@babel/preset-react',
+                {
+                  development: process.env.BABEL_ENV !== 'build',
+                },
+              ],
+            ],
+            env: {
+              build: {
+                ignore: ['**/*.test.js', '**/*.test.jsx', '__snapshots__', '__tests__'],
+              },
+            },
+            ignore: ['node_modules'],
+            plugins: [
+              '@babel/plugin-proposal-class-properties',
+              '@babel/plugin-proposal-object-rest-spread',
+              '@babel/plugin-transform-runtime',
+              'babel-plugin-styled-components',
+            ],
+          }
+        }
+        `,
         isBinary: false,
       },
-      'index.js': {
-        content: `import React from "react";
-import ReactDOM from "react-dom";
+      'webpack.config.js': {
+        content: `const path = require('path')
+        const webpack = require('webpack')
+        const env_config = require('./env_config')
 
-import App from "./App";
+        const PATHS = {
+          app: path.join(__dirname, 'src/index.js'),
+        }
 
-const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
+        module.exports = {
+          entry: {
+            app: PATHS.app,
+          },
+          output: {
+            path: __dirname + '/dist',
+            filename: 'bundle.js',
+            publicPath: 'http://localhost:8080/',
+          },
+          mode: 'development',
+          module: {
+            rules: [
+              {
+                test: /\.(js|jsx)$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/,
+                include: /src/,
+              },
+              {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
+              },
+              {
+                test: /\.(js|jsx)?$/,
+                use: 'react-hot-loader/webpack',
+                include: /node_modules/,
+              },
+            ],
+          },
+          resolve: {
+            extensions: ['.jsx', '.js'],
+          },
+          devServer: {
+            index: 'index.html',
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+              'Access-Control-Allow-Headers':
+                'X-Requested-With, content-type, Authorization',
+            },
+          },
+          devtool: 'inline-source-map',
+          plugins: [new webpack.DefinePlugin(env_config())],
+        }
 `,
         isBinary: false,
       },
-      'App.js': {
+      'webpack.prod.config.js': {
+        content: `const path = require('path')
+        const webpack = require('webpack')
+        const env_config = require('./env_config')
+
+        const PATHS = {
+          app: path.join(__dirname, 'src/index.js'),
+        }
+
+        module.exports = {
+          entry: {
+            app: PATHS.app,
+          },
+          output: {
+            path: __dirname + '/dist',
+            filename: 'bundle.js',
+          },
+          mode: 'production',
+          module: {
+            rules: [
+              {
+                test: /\.(js|jsx)$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/,
+                include: /src/,
+                sideEffects: false,
+              },
+              {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
+              },
+            ],
+          },
+          resolve: {
+            extensions: ['.jsx', '.js'],
+          },
+          plugins: [new webpack.DefinePlugin(env_config())],
+        }
+`,
+        isBinary: false,
+      },
+      'manifest.lkml': {
+        content: `project_name: "generated-extension"
+
+        application: generated-extension {
+          label: "generated-extension"
+          url: "http://localhost:8080/bundle.js"
+          # file: "bundle.js
+          entitlements: {
+          core_api_methods: ["me"] #Add more entitlements here as you develop new functionality
+        }
+        }
+`,
+        isBinary: false,
+      },
+      'src/index.js': {
+        content: `import * as React from 'react'
+        import * as ReactDOM from 'react-dom'
+        import { App } from './App'
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+          var root = document.createElement('div')
+          document.body.appendChild(root)
+          ReactDOM.render(<App />, root)
+        })
+`,
+        isBinary: false,
+      },
+      'src/App.js': {
         content: code,
         isBinary: false,
       },
       'package.json': {
         content: `{
-  "name": "react",
-  "version": "1.0.0",
-  "description": "",
-  "keywords": [],
-  "main": "src/index.js",
-  "dependencies": {
-    "@chakra-ui/react": "^1.0.1",
-    "@chakra-ui/icons": "^1.0.1",
-    "@emotion/react": "^11.1.1",
-    "@emotion/styled": "^11.0.0",
-    "framer-motion": "^2.9.4",
-    "react": "16.12.0",
-    "react-dom": "16.12.0",
-    "react-scripts": "3.0.1"
-  },
-  "devDependencies": {
-    "typescript": "3.3.3"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
-}`,
+          "name": "generated-project",
+          "version": "0.0.1",
+          "description": "Bootstrapped Looker Extension",
+          "main": "dist/bundle.js",
+          "scripts": {
+            "clean": "rm -rf dist",
+            "start": "webpack serve --hot --disable-host-check --port 8080",
+            "build": "export BABEL_ENV=build && webpack --mode=production --config webpack.prod.config.js",
+            "test": "echo \"Error: no test specified\" && exit 1"
+          },
+          "author": "Looker",
+          "license": "MIT",
+          "engines": {
+            "node": ">=12"
+          },
+          "resolutions": {
+            "@babel/runtime": "^7.12.5"
+          },
+          "dependencies": {
+            "@hot-loader/react-dom": "^16.13.0",
+            "@looker/components": "0.9.6",
+            "@looker/embed-sdk": "1.0.0-beta.6",
+            "@looker/extension-sdk": "^0.11.0",
+            "@looker/extension-sdk-react": "^0.6.2",
+            "@looker/sdk": "0.3.0-beta.1",
+            "react": "^16.13.1",
+            "react-dom": "^16.13.1",
+            "react-router-dom": "^5.1.2",
+            "react-hot-loader": "^4.12.20",
+            "styled-components": "^4.4.1",
+            "styled-system": "^5.1.2",
+            "webpack": "^5.10.0",
+            "webpack-bundle-analyzer": "^4.2.0",
+            "webpack-cli": "^4.2.0",
+            "webpack-dev-server": "^3.10.3"
+          },
+          "devDependencies": {
+            "babel-loader": "^8.0.6",
+            "@babel/cli": "^7.7.4",
+            "@babel/core": "^7.0.0-0",
+            "@babel/plugin-proposal-class-properties": "^7.7.4",
+            "@babel/plugin-proposal-object-rest-spread": "^7.7.4",
+            "@babel/plugin-transform-react-jsx": "^7.3.0",
+            "@babel/plugin-transform-runtime": "^7.7.4",
+            "@babel/preset-env": "^7.7.4",
+            "@babel/preset-react": "^7.7.4",
+            "@babel/preset-typescript": "^7.7.4",
+            "@babel/runtime": "^7.7.4",
+            "babel-preset-nano-react-app": "^0.1.0",
+            "css-loader": "^3.5.2",
+            "json-server": "^0.16.1",
+            "style-loader": "^1.1.3"
+          },
+          "babel": {
+            "presets": [
+              "nano-react-app"
+            ],
+            "plugins": [
+              [
+                "@babel/plugin-proposal-class-properties",
+                {
+                  "loose": true
+                }
+              ],
+              [
+                "@babel/plugin-transform-react-jsx",
+                {
+                  "pragmaFrag": "React.Fragment"
+                }
+              ]
+            ]
+          }
+        }`,
         isBinary: false,
       },
     },

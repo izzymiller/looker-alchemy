@@ -13,6 +13,7 @@ const ButtonPanel = () => {
 
   const size = usePropsSelector('size')
   const variant = usePropsSelector('variant')
+  const color = usePropsSelector('color')
 
   return (
     <>
@@ -29,16 +30,30 @@ const ButtonPanel = () => {
           value={variant || ''}
         >
           <option>outline</option>
-          <option>ghost</option>
-          <option>unstyled</option>
+          <option>transparent</option>
+          <option>toggle</option>
           <option>link</option>
           <option>solid</option>
         </Select>
       </FormControl>
 
+      <FormControl htmlFor="color" label="Color">
+        <Select
+          id="color"
+          onChange={setValueFromEvent}
+          name="color"
+          size="sm"
+          value={color || ''}
+        >
+          <option>key</option>
+          <option>critical</option>
+          <option>neutral</option>
+        </Select>
+      </FormControl>
+
       <ColorsControl label="Color Scheme" name="colorScheme" />
-      <IconControl label="Left icon" name="leftIcon" />
-      <IconControl label="Right icon" name="rightIcon" />
+      <IconControl label="Left icon" name="iconBefore" />
+      <IconControl label="Right icon" name="iconAfter" />
     </>
   )
 }

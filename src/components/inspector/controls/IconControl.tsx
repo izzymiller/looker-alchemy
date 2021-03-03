@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react'
-// import * as Chakra from '@chakra-ui/react'
-import { useTheme } from '@chakra-ui/react'
+import { Icon } from '@looker/components'
 import FormControl from './FormControl'
 import { useForm } from '~hooks/useForm'
 import usePropsSelector from '~hooks/usePropsSelector'
@@ -24,13 +23,15 @@ const IconControl: React.FC<IconControlProps> = ({ name, label }) => {
         handleChange={setValueFromEvent}
         name={name}
       >
-        {(Object.keys(icons) as Array<keyof typeof icons>)
-          .filter(icon => icon.includes(value) || !value)
+        {icons
+          .filter(
+            icon => icon.toUpperCase().includes(value.toUpperCase()) || !value,
+          )
           .map((icon, index) => {
-            const IconComponent = icons[icon]
             return (
               <ComboboxOption key={index} value={icon}>
-                <IconComponent
+                <Icon
+                  name={icon}
                   // @ts-ignore
                   path=""
                 />

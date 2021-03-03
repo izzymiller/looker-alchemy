@@ -28,7 +28,7 @@ const Metadata = () => {
       <meta name="msapplication-TileColor" content="#da532c" />
       <meta name="theme-color" content="#ffffff" />
 
-      <title>OpenChakra</title>
+      <title>Looker Extension Builder</title>
       <meta
         name="description"
         content="React JSX visual editor for Chakra UI"

@@ -56,16 +56,7 @@ const buildBlock = ({
       propsNames.forEach((propName: string) => {
         const propsValue = childComponent.props[propName]
 
-        if (
-          propName.toLowerCase().includes('icon') &&
-          childComponent.type !== 'Icon'
-        ) {
-          if (Object.keys(icons).includes(propsValue)) {
-            let operand = `={<${propsValue} />}`
-
-            propsContent += `${propName}${operand} `
-          }
-        } else if (propName !== 'children' && propsValue) {
+        if (propName !== 'children' && propsValue) {
           let operand = `='${propsValue}'`
 
           if (propsValue === true || propsValue === 'true') {
@@ -150,19 +141,9 @@ const ${componentName} = () => (
   return code
 }
 
-const getIconsImports = (components: IComponents) => {
-  return Object.keys(components).flatMap(name => {
-    return Object.keys(components[name].props)
-      .filter(prop => prop.toLowerCase().includes('icon'))
-      .filter(prop => !!components[name].props[prop])
-      .map(prop => components[name].props[prop])
-  })
-}
-
 export const generateCode = async (components: IComponents) => {
   let code = buildBlock({ component: components.root, components })
   let componentsCodes = buildComponents(components)
-  const iconImports = [...new Set(getIconsImports(components))]
 
   const imports = [
     ...new Set(
@@ -172,26 +153,25 @@ export const generateCode = async (components: IComponents) => {
     ),
   ]
 
-  code = `import React from 'react';
-import {
-  ChakraProvider,
-  ${imports.join(',')}
-} from "@chakra-ui/react";${
-    iconImports.length
-      ? `
-import { ${iconImports.join(',')} } from "@chakra-ui/icons";`
-      : ''
-  }
+  code = `import React, { useEffect, useState, useContext } from 'react';
+  import { ExtensionProvider, ExtensionContext } from '@looker/extension-sdk-react';
+  import { hot } from 'react-hot-loader/root'
+  import {
+    ComponentsProvider,
+    ${imports.join(',')}
+  } from '@looker/components';
 
 ${componentsCodes}
 
-const App = () => (
-  <ChakraProvider resetCSS>
-    ${code}
-  </ChakraProvider>
-);
-
-export default App;`
+export const App = hot(() => {
+  return (
+    <ExtensionProvider>
+      <ComponentsProvider>
+        ${code}
+      </ComponentsProvider>
+    </ExtensionProvider>
+  )
+})`
 
   return await formatCode(code)
 }

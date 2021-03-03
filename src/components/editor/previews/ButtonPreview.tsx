@@ -1,7 +1,12 @@
 import React from 'react'
 import { useDropComponent } from '~hooks/useDropComponent'
 import { useInteractive } from '~hooks/useInteractive'
-import { Button } from '@chakra-ui/react'
+import {
+  Button,
+  ButtonOutline,
+  ButtonTransparent,
+  ButtonToggle,
+} from '@looker/components'
 import icons from '~iconsList'
 
 interface Props {
@@ -13,25 +18,30 @@ const ButtonPreview = ({ component }: Props) => {
   const { props, ref } = useInteractive(component, true)
 
   if (isOver) {
-    props.bg = 'teal.50'
+    props.color = 'teal.50'
+  }
+
+  if (props.iconBefore) {
+    if (icons.includes(props.iconBefore)) {
+      props.iconBefore = String(props.iconBefore)
+    } else {
+      props.iconBefore = String('')
+    }
   }
 
   if (props.leftIcon) {
-    if (Object.keys(icons).includes(props.leftIcon)) {
-      const Icon = icons[props.leftIcon as keyof typeof icons]
-      props.leftIcon = <Icon path="" />
-    } else {
-      props.leftIcon = undefined
+    if (icons.includes(props.leftIcon)) {
+      props.leftIcon = String(props.leftIcon)
     }
+    props.iconBefore = String('')
   }
 
-  if (props.rightIcon) {
-    if (Object.keys(icons).includes(props.rightIcon)) {
-      const Icon = icons[props.rightIcon as keyof typeof icons]
-      props.rightIcon = <Icon path="" />
-    } else {
-      props.rightIcon = undefined
-    }
+  if (props.variant == 'outline') {
+    return <ButtonOutline ref={ref} {...props} />
+  }
+
+  if (props.variant == 'transparent') {
+    return <ButtonTransparent ref={ref} {...props} />
   }
 
   return <Button ref={ref} {...props} />

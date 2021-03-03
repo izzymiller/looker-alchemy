@@ -3,7 +3,13 @@ import FormControl from './FormControl'
 import { Select } from '@chakra-ui/react'
 import { useForm } from '~hooks/useForm'
 
-export type Size = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+export type Size =
+  | 'xxsmall'
+  | 'xsmall'
+  | 'small'
+  | 'medium'
+  | 'large'
+  | 'xlarge'
 type SizeControlPropsType = {
   name?: string
   label?: string | ReactNode
@@ -11,7 +17,7 @@ type SizeControlPropsType = {
   options?: Size[]
 }
 
-const options = ['xs', 'sm', 'md', 'lg']
+const options = ['xxsmall', 'xsmall', 'small', 'medium', 'large', 'xlarge']
 
 const SizeControl = (props: SizeControlPropsType) => {
   const { setValueFromEvent } = useForm()

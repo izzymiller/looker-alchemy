@@ -2,7 +2,7 @@ import React, { FunctionComponent, ComponentClass } from 'react'
 import { useInteractive } from '~hooks/useInteractive'
 import { useDropComponent } from '~hooks/useDropComponent'
 import ComponentPreview from '~components/editor/ComponentPreview'
-import { Box } from '@chakra-ui/react'
+import { Box } from '@looker/components'
 
 const WithChildrenPreviewContainer: React.FC<{
   component: IComponent
@@ -35,6 +35,8 @@ const WithChildrenPreviewContainer: React.FC<{
       <ComponentPreview key={key} componentName={key} />
     )),
   )
+
+  console.log(children)
 
   if (isBoxWrapped) {
     let boxProps: any = {

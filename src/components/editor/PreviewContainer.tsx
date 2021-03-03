@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ComponentClass } from 'react'
 import { useInteractive } from '~hooks/useInteractive'
-import { Box } from '@chakra-ui/react'
+import { Box } from '@looker/components'
 
 const PreviewContainer: React.FC<{
   component: IComponent
@@ -21,10 +21,10 @@ const PreviewContainer: React.FC<{
     ...forwardedProps,
     ref,
   })
+  console.log(children)
 
   if (isBoxWrapped) {
     let boxProps: any = {}
-
     return (
       <Box {...boxProps} ref={ref}>
         {children}

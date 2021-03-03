@@ -1,6 +1,6 @@
 {
-  "name": "OpenChakra",
-  "short_name": "React JSX visual editor for Chakra UI",
+  "name": "Looker Extension Builder",
+  "short_name": "React JSX visual editor for Looker Components and Extensions",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",

@@ -53,7 +53,7 @@ const componentFixturesWithButtonIcon: IComponents = {
   'comp-2': {
     id: 'comp-2',
     props: {
-      leftIcon: 'PhoneIcon',
+      iconBefore: 'PhoneIcon',
     },
     children: [],
     type: 'Button',
@@ -110,7 +110,7 @@ import { PhoneIcon } from '@chakra-ui/icons'
 
 const MyBox = () => (
   <Box bg="whatsapp.500">
-    <Button leftIcon={<PhoneIcon />} />
+    <Button iconBefore={<PhoneIcon />} />
   </Box>
 )
 

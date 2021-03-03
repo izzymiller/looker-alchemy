@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Box, Flex, Stack, Button } from '@chakra-ui/react'
+import { Box, Flex, Button, ButtonOutline } from '@looker/components'
+import { Stack } from '@chakra-ui/react'
 import { CheckCircleIcon } from '@chakra-ui/icons'
 import { FaBomb } from 'react-icons/fa'
 import { gridStyles } from '~components/editor/Editor'
@@ -49,19 +50,18 @@ export default class AppErrorBoundary extends Component<
               <b>Oups…</b>
               <br />
               Something went wrong! Clear cache and refresh.
-              <Button
+              <ButtonOutline
                 onClick={() => {
                   localStorage.clear()
                   window.location.reload()
                 }}
-                variant="outline"
-                rightIcon={<CheckCircleIcon path="" />}
+                iconBefore={<CheckCircleIcon path="" />}
                 size="sm"
                 mt={4}
                 display="block"
               >
                 Clear & reload
-              </Button>
+              </ButtonOutline>
             </Box>
           </Stack>
         </Flex>

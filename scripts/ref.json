@@ -74,7 +74,7 @@
       "description": "If `true`, the button will show a spinner."
     },
     {
-      "name": "leftIcon",
+      "name": "iconBefore",
       "type": { "type": "string" },
       "description": "If added, the button will show an icon before the button's label.\nUse the icon key in `theme.iconPath`"
     },
@@ -84,7 +84,7 @@
       "description": "The label to show in the button when `isLoading` is true\nIf no text is passed, it only shows the spinner"
     },
     {
-      "name": "rightIcon",
+      "name": "leftIcon",
       "type": { "type": "string" },
       "description": "If added, the button will show an icon after the button's label.\nUse the icon key in `theme.iconPath`"
     },

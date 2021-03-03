@@ -511,7 +511,7 @@ export const onboarding: IComponents = {
   'comp-K6GXHPLKU3KD7': {
     id: 'comp-K6GXHPLKU3KD7',
     props: {
-      icon: 'ChevronLeftIcon',
+      icon: 'ChevroniconBefore',
     },
     children: [],
     type: 'Icon',
@@ -738,7 +738,7 @@ export const onboarding: IComponents = {
   'comp-K6H0L81XGIHU1': {
     id: 'comp-K6H0L81XGIHU1',
     props: {
-      icon: 'ChevronRightIcon',
+      icon: 'ChevronleftIcon',
     },
     children: [],
     type: 'Icon',

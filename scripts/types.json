@@ -643,7 +643,7 @@
         },
         {
           "id": 34,
-          "name": "leftIcon",
+          "name": "iconBefore",
           "kind": 1024,
           "kindString": "Property",
           "flags": {
@@ -709,7 +709,7 @@
         },
         {
           "id": 35,
-          "name": "rightIcon",
+          "name": "leftIcon",
           "kind": 1024,
           "kindString": "Property",
           "flags": {

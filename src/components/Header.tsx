@@ -28,6 +28,7 @@ import { useSelector } from 'react-redux'
 import { getComponents } from '~core/selectors/components'
 import { getShowLayout, getShowCode } from '~core/selectors/app'
 import HeaderMenu from '~components/headerMenu/HeaderMenu'
+import build from 'next/dist/build'
 
 const CodeSandboxButton = () => {
   const components = useSelector(getComponents)
@@ -54,7 +55,7 @@ const CodeSandboxButton = () => {
           )
         }}
         isLoading={isLoading}
-        rightIcon={<ExternalLinkIcon path="" />}
+        leftIcon={<ExternalLinkIcon path="" />}
         variant="ghost"
         size="xs"
       > */}
@@ -62,11 +63,11 @@ const CodeSandboxButton = () => {
         onClick={async () => {
           setIsLoading(true)
           const code = await generateCode(components)
-          console.log(code)
+          buildParameters(code)
           setIsLoading(false)
         }}
         isLoading={isLoading}
-        rightIcon={<ExternalLinkIcon path="" />}
+        leftIcon={<ExternalLinkIcon path="" />}
         variant="ghost"
         size="xs"
       >
@@ -174,7 +175,7 @@ const Header = () => {
                   <PopoverTrigger>
                     <Button
                       ml={4}
-                      rightIcon={<SmallCloseIcon path="" />}
+                      leftIcon={<SmallCloseIcon path="" />}
                       size="xs"
                       variant="ghost"
                     >
@@ -195,7 +196,7 @@ const Header = () => {
                           size="sm"
                           variant="ghost"
                           colorScheme="red"
-                          rightIcon={<CheckIcon path="" />}
+                          leftIcon={<CheckIcon path="" />}
                           onClick={() => {
                             dispatch.components.reset()
                             if (onClose) {

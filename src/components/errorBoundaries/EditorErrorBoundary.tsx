@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
-import { Box, Flex, Stack, Button } from '@chakra-ui/react'
+import { Stack } from '@chakra-ui/react'
+import { Box, Flex, Button } from '@looker/components'
 import { CheckCircleIcon } from '@chakra-ui/icons'
 import { FaBomb } from 'react-icons/fa'
 import { gridStyles } from '~components/editor/Editor'
@@ -59,7 +60,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                   this.setState({ hasError: false })
                 }}
                 variant="outline"
-                rightIcon={<CheckCircleIcon path="" />}
+                iconBefore={<CheckCircleIcon path="" />}
                 size="sm"
                 mt={4}
                 display="block"
