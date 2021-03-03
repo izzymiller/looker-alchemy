@@ -17,7 +17,14 @@ import {
   Tooltip,
   HStack,
 } from '@chakra-ui/react'
-import { Box, Flex, Link, Button } from '@looker/components'
+import {
+  Box,
+  Flex,
+  Link,
+  Button,
+  Heading,
+  ButtonTransparent,
+} from '@looker/components'
 import { ExternalLinkIcon, SmallCloseIcon, CheckIcon } from '@chakra-ui/icons'
 import { DiGithubBadge } from 'react-icons/di'
 import { AiFillThunderbolt } from 'react-icons/ai'
@@ -35,13 +42,7 @@ const CodeSandboxButton = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   return (
-    <Tooltip
-      zIndex={100}
-      hasArrow
-      bg="yellow.100"
-      aria-label="Export Code"
-      label="Export Code"
-    >
+    <Tooltip>
       {/* <Button
         onClick={async () => {
           setIsLoading(true)
@@ -59,7 +60,7 @@ const CodeSandboxButton = () => {
         variant="ghost"
         size="xs"
       > */}
-      <Button
+      <ButtonTransparent
         onClick={async () => {
           setIsLoading(true)
           const code = await generateCode(components)
@@ -67,12 +68,11 @@ const CodeSandboxButton = () => {
           setIsLoading(false)
         }}
         isLoading={isLoading}
-        leftIcon={<ExternalLinkIcon path="" />}
-        variant="ghost"
-        size="xs"
+        iconBefore="Download"
+        size="medium"
       >
         Export code
-      </Button>
+      </ButtonTransparent>
     </Tooltip>
   )
 }
@@ -83,18 +83,11 @@ const Header = () => {
   const dispatch = useDispatch()
 
   return (
-    <DarkMode>
-      <Flex
-        justifyContent="space-between"
-        bg="#1a202c"
-        as="header"
-        height="3rem"
-        px="1rem"
-      >
+    <>
+      <Flex justifyContent="space-between" as="header" height="3rem" px="1rem">
         <Flex
           width="14rem"
           height="100%"
-          backgroundColor="#1a202c"
           color="white"
           as="a"
           fontSize="xl"
@@ -103,7 +96,11 @@ const Header = () => {
           aria-label="Chakra UI, Back to homepage"
         >
           <Box fontSize="2xl" as={AiFillThunderbolt} mr={1} color="teal.100" />{' '}
-          <Box fontWeight="bold">Looker Extension Builder</Box>
+          <Box>
+            <Heading as="h3" color="key" fontWeight="bold">
+              Looker Extension Builder
+            </Heading>
+          </Box>
         </Flex>
 
         <Flex flexGrow={1} justifyContent="space-between" alignItems="center">
@@ -112,16 +109,9 @@ const Header = () => {
               <HeaderMenu />
             </Box>
             <FormControl flexDirection="row" display="flex" alignItems="center">
-              <Tooltip
-                zIndex={100}
-                hasArrow
-                bg="yellow.100"
-                aria-label="Builder mode help"
-                label="Builder mode adds extra padding/borders"
-              >
+              <Tooltip>
                 <FormLabel
-                  cursor="help"
-                  color="gray.200"
+                  color="#6C43E0"
                   fontSize="xs"
                   htmlFor="preview"
                   pb={0}
@@ -145,7 +135,7 @@ const Header = () => {
 
             <FormControl display="flex" flexDirection="row" alignItems="center">
               <FormLabel
-                color="gray.200"
+                color="#6C43E0"
                 fontSize="xs"
                 mr={2}
                 mb={0}
@@ -173,14 +163,9 @@ const Header = () => {
               {({ onClose }) => (
                 <>
                   <PopoverTrigger>
-                    <Button
-                      ml={4}
-                      leftIcon={<SmallCloseIcon path="" />}
-                      size="xs"
-                      variant="ghost"
-                    >
+                    <ButtonTransparent iconBefore="Close" size="medium">
                       Clear
-                    </Button>
+                    </ButtonTransparent>
                   </PopoverTrigger>
                   <LightMode>
                     <PopoverContent zIndex={100} bg="white">
@@ -223,7 +208,7 @@ const Header = () => {
           spacing="2"
         ></Stack>
       </Flex>
-    </DarkMode>
+    </>
   )
 }
 
