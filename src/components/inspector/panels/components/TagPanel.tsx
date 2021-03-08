@@ -19,7 +19,7 @@ const TagPanel = () => {
     <>
       <ChildrenControl />
       <SizeControl
-        options={['sm', 'md', 'lg']}
+        options={['small', 'medium', 'large']}
         name="size"
         label="Size"
         value={size}

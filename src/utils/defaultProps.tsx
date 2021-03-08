@@ -47,12 +47,33 @@ import {
 } from '@looker/components'
 
 import iconsList from '~iconsList'
+import { ButtonGroupProps, CodeProps, SpaceProps } from '@chakra-ui/react'
+import { Props } from 'framer-motion/types/types'
+import { InputProps } from '@looker/components/lib/Form/Inputs/InputProps'
 
 type PropsWithForm<T> = T & { form?: T }
 
 type PreviewDefaultProps = {
   Badge?: PropsWithForm<BadgeProps>
   Box?: PropsWithForm<BoxProps>
+  Code?: PropsWithForm<CodeProps>
+  Space?: PropsWithForm<SpaceProps>
+  SpaceVertical?: PropsWithForm<SpaceVerticalProps>
+  AvatarUser?: PropsWithForm<AvatarUserProps>
+  Breakpoint?: PropsWithForm<BreakpointProps>
+  ButtonGroup?: PropsWithForm<ButtonGroupProps>
+  ButtonOutline?: PropsWithForm<ButtonProps>
+  ButtonToggle?: PropsWithForm<ButtonProps>
+  ButtonTransparent?: PropsWithForm<ButtonProps>
+  Chip?: PropsWithForm<ChipProps>
+  FlexItem?: PropsWithForm<FlexItemProps>
+  Form?: PropsWithForm<FormProps>
+  InlineInputText?: PropsWithForm<InlineInputTextProps>
+  InlineTextArea?: PropsWithForm<InlineTextAreaProps>
+  InputChips?: PropsWithForm<InputChipsProps>
+  Input?: PropsWithForm<InputProps>
+  SelectMulti?: PropsWithForm<SelectMultiProps>
+  Textarea?: PropsWithForm<TextAreaProps>
   Button?: PropsWithForm<ButtonProps>
   Icon?: PropsWithForm<IconProps> & { icon: keyof typeof iconsList }
   IconButton?: PropsWithForm<IconButtonProps>
@@ -95,6 +116,7 @@ export const DEFAULT_PROPS: PreviewDefaultProps = {
   AvatarIcon: {
     icon: 'User',
   },
+  AvatarUser: {},
   Badge: {
     children: 'Badge name',
     size: 'small',
@@ -132,14 +154,10 @@ export const DEFAULT_PROPS: PreviewDefaultProps = {
   Heading: {
     children: 'Heading title',
   },
-  Icon: {
-    name: 'Account',
-  },
   IconButton: {
     'aria-label': 'icon',
     // @ts-ignore
     icon: 'CopyIcon',
-    size: 'md',
   },
   Image: {
     height: '100px',
@@ -150,11 +168,7 @@ export const DEFAULT_PROPS: PreviewDefaultProps = {
     children: 'right',
   },
   Link: { children: 'Link text' },
-  List: {
-    form: {
-      styleType: 'none',
-    },
-  },
+  List: {},
   ListItem: { children: 'list' },
   Progress: {
     value: 60,
@@ -193,7 +207,6 @@ export const DEFAULT_PROPS: PreviewDefaultProps = {
     isChecked: false,
   },
   Tab: { children: 'Tab' },
-  TabPanel: { children: 'Tab' },
   Tag: {
     children: 'Tag name',
   },

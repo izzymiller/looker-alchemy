@@ -5,7 +5,6 @@ declare module 'browser-nativefs'
 
 type ComponentType =
   | 'Accordion'
-  | 'APICall'
   | 'AccordionDisclosure'
   | 'AccordionContent'
   | 'AvatarUser'

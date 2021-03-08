@@ -40,7 +40,11 @@ const ProgressPanel = () => {
 
       <ColorsControl label="Color Scheme" name="colorScheme" />
 
-      <SizeControl label="Size" options={['sm', 'md', 'lg']} value={size} />
+      <SizeControl
+        label="Size"
+        options={['small', 'medium', 'large']}
+        value={size}
+      />
     </>
   )
 }

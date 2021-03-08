@@ -249,7 +249,8 @@ export const buildParameters = (code: string): string => {
   zip.file('src/App.js', code)
 
   zip.generateAsync({ type: 'blob' }).then(function(content) {
-    saveAs(content, 'generated-extension.zip')
+    // @ts-ignore: Weird error
+    saveAs(content, 'generated-extension.zip') //tslint:disable
   })
 
   return getParameters({

@@ -10,7 +10,11 @@ const NumberInputPanel = () => {
 
   return (
     <>
-      <SizeControl label="Size" options={['sm', 'md', 'lg']} value={size} />
+      <SizeControl
+        label="Size"
+        options={['small', 'medium', 'large']}
+        value={size}
+      />
       <TextControl label="Value" name="value" />
       <NumberControl name="step" label="Step" />
       <NumberControl name="precision" label="Precision" />

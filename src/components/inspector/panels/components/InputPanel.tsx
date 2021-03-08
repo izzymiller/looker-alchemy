@@ -15,7 +15,11 @@ const InputPanel = () => {
 
   return (
     <>
-      <SizeControl label="Size" options={['sm', 'md', 'lg']} value={size} />
+      <SizeControl
+        label="Size"
+        options={['xsmall', 'small', 'medium', 'large', 'xlarge']}
+        value={size}
+      />
       <TextControl label="Value" name="value" />
       <TextControl label="Placeholder" name="placeholder" />
 

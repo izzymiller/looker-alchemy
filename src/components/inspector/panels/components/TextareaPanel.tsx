@@ -5,7 +5,7 @@ import { useForm } from '~hooks/useForm'
 import SizeControl, { Size } from '~components/inspector/controls/SizeControl'
 import usePropsSelector from '~hooks/usePropsSelector'
 
-const options = ['sm', 'md', 'lg'] as Size[]
+const options = ['small', 'medium', 'large'] as Size[]
 
 const TextareaPanel = () => {
   const { setValueFromEvent } = useForm()

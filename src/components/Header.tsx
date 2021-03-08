@@ -37,6 +37,27 @@ import { getShowLayout, getShowCode } from '~core/selectors/app'
 import HeaderMenu from '~components/headerMenu/HeaderMenu'
 import build from 'next/dist/build'
 
+const OauthButton = () => {
+  const [isLoading, setIsLoading] = useState(false)
+
+  return (
+    <Tooltip>
+      <ButtonTransparent
+        onClick={async () => {
+          setIsLoading(true)
+          setIsLoading(false)
+        }}
+        isLoading={isLoading}
+        iconBefore="LogoRings"
+        size="medium"
+        color="neutral"
+      >
+        Connect to Looker
+      </ButtonTransparent>
+    </Tooltip>
+  )
+}
+
 const CodeSandboxButton = () => {
   const components = useSelector(getComponents)
   const [isLoading, setIsLoading] = useState(false)
@@ -197,6 +218,7 @@ const Header = () => {
                 </>
               )}
             </Popover>
+            <OauthButton />
           </Stack>
         </Flex>
 

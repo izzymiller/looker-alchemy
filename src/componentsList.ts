@@ -11,8 +11,8 @@ type MenuItems = Partial<
 >
 
 export const menuItems: MenuItems = {
-  AvatarUser: {},
-  AvatarIcon: {},
+  // AvatarUser: {},
+  // AvatarIcon: {},
   Badge: {},
   Box: {},
   Button: {},

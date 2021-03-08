@@ -80,10 +80,6 @@ const useShortcuts = () => {
     dispatch.components.duplicate()
   }
 
-  const onKonamiCode = () => {
-    dispatch.components.loadDemo('secretchakra')
-  }
-
   useHotkeys(keyMap.DELETE_NODE, deleteNode, {}, [selected.id])
   useHotkeys(keyMap.TOGGLE_BUILDER_MODE, toggleBuilderMode)
   useHotkeys(keyMap.TOGGLE_CODE_PANEL, toggleCodePanel)
@@ -92,7 +88,6 @@ const useShortcuts = () => {
   useHotkeys(keyMap.UNSELECT, onUnselect)
   useHotkeys(keyMap.PARENT, onSelectParent)
   useHotkeys(keyMap.DUPLICATE, onDuplicate)
-  useHotkeys(keyMap.KONAMI_CODE, onKonamiCode)
 }
 
 export default useShortcuts
